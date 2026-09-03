@@ -27,6 +27,8 @@ export function localBusinessSchema() {
         currenciesAccepted: 'EUR',
         address: {
           '@type': 'PostalAddress',
+          // Champ omis tant que la rue n'est pas confirmée.
+          ...(site.address.street ? { streetAddress: site.address.street } : {}),
           addressLocality: site.address.locality,
           postalCode: site.address.postalCode,
           addressRegion: site.address.region,

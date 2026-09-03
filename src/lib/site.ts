@@ -26,6 +26,13 @@ export const site = {
   email: 'contact@plomberie-avetisyan.fr',
 
   address: {
+    /**
+     * Numéro et rue. Laissé vide : non fourni, et les annuaires tiers ne font
+     * pas foi. Tant que ce champ est vide, `streetAddress` est absent du schema
+     * LocalBusiness — mieux vaut une adresse absente qu'une adresse fausse.
+     * Candidat à confirmer sur la fiche Google : « 10 Rue Rabutin Chantal ».
+     */
+    street: '',
     locality: 'Marseille',
     postalCode: '13009',
     region: 'Provence-Alpes-Côte d’Azur',
