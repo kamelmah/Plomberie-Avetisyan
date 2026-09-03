@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { seo } from '~/lib/seo'
-import { site } from '~/lib/site'
+import { horairesGroupes, site } from '~/lib/site'
 import { CallBand, CallButton, Card, CheckList, GhostButton, Section } from '~/components/ui'
+import { NoteGoogle } from '~/components/Horaires'
 import {
   IconAlert,
   IconClock,
@@ -29,10 +30,13 @@ function Accueil() {
     <>
       <header className="bg-marine-900 text-white">
         <div className="wrap py-14 sm:py-20">
-          <p className="inline-flex items-center gap-2 rounded-full bg-marine-800 px-3.5 py-1.5 text-sm font-bold text-ambre-400">
-            <IconPin className="h-4 w-4" />
-            Marseille 9e et alentours
-          </p>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <p className="inline-flex items-center gap-2 rounded-full bg-marine-800 px-3.5 py-1.5 text-sm font-bold text-ambre-400">
+              <IconPin className="h-4 w-4" />
+              Marseille 9e et alentours
+            </p>
+            <NoteGoogle />
+          </div>
           <h1 className="mt-5 max-w-3xl text-[2rem] font-extrabold leading-[1.12] tracking-tight sm:text-[2.75rem] lg:text-5xl">
             Le plombier qu’on appelle quand les autres n’ont pas trouvé la fuite
           </h1>
@@ -41,10 +45,14 @@ function Accueil() {
             vos murs. Recherche de fuite, dépannage urgent et débouchage à Marseille.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <CallButton sublabel={site.emergencyLabel} />
+            <CallButton sublabel={site.hoursLabel} />
             <GhostButton to="/contact">Demander un devis gratuit</GhostButton>
           </div>
-          <p className="mt-6 text-sm text-marine-300">{site.hoursLabel}</p>
+          <p className="mt-6 text-sm text-marine-300">
+            {horairesGroupes()
+              .map((g) => `${g.jours} ${g.plage}`)
+              .join(' · ')}
+          </p>
         </div>
       </header>
 

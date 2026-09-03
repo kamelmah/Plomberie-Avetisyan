@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { site, telHref } from '~/lib/site'
 import { IconMail, IconPhone, IconPin } from './Icons'
 import { Goutte } from './Logo'
+import { Horaires } from './Horaires'
 
 export function Footer() {
   return (
@@ -36,6 +37,8 @@ export function Footer() {
             <li className="inline-flex items-center gap-2.5">
               <IconPin className="h-4.5 w-4.5 text-marine-400" />
               <span>
+                {site.address.street}
+                <br />
                 {site.address.postalCode} {site.address.locality}
               </span>
             </li>
@@ -70,8 +73,10 @@ export function Footer() {
 
         <div>
           <p className="text-sm font-bold uppercase tracking-wider text-marine-400">Horaires</p>
-          <p className="mt-4 text-sm">{site.hoursLabel}</p>
-          <p className="mt-1 text-sm text-ambre-400">{site.emergencyLabel}</p>
+          <div className="mt-4 max-w-xs">
+            <Horaires />
+          </div>
+          <p className="mt-3 text-sm font-semibold text-ambre-400">{site.hoursLabel}</p>
 
           <p className="mt-6 text-sm font-bold uppercase tracking-wider text-marine-400">
             Zone d’intervention

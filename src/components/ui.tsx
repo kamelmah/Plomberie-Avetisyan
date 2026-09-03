@@ -72,7 +72,7 @@ export function PageHero({
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-marine-100">{intro}</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <CallButton sublabel={site.emergencyLabel} />
+          <CallButton sublabel={site.hoursLabel} />
           <GhostButton to="/contact">Demander un devis</GhostButton>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { seo } from '~/lib/seo'
 import { site, telHref } from '~/lib/site'
 import { DevisForm } from '~/components/DevisForm'
 import { Section } from '~/components/ui'
+import { Horaires, NoteGoogle } from '~/components/Horaires'
 import { IconClock, IconMail, IconPhone, IconPin } from '~/components/Icons'
 
 export const Route = createFileRoute('/contact')({
@@ -30,6 +31,9 @@ function Contact() {
             situation à expliquer, le formulaire ci-dessous permet de tout détailler et
             d’envoyer des photos.
           </p>
+          <div className="mt-7">
+            <NoteGoogle />
+          </div>
         </div>
       </header>
 
@@ -79,16 +83,21 @@ function Contact() {
                     Adresse
                   </span>
                   <p className="mt-1">
+                    {site.address.street}
+                    <br />
                     {site.address.postalCode} {site.address.locality}
                   </p>
+                  <p className="mt-1 text-marine-300">{site.address.complement}</p>
                 </li>
                 <li>
                   <span className="flex items-center gap-2 font-bold text-marine-300">
                     <IconClock className="h-4 w-4" />
                     Horaires
                   </span>
-                  <p className="mt-1">{site.hoursLabel}</p>
-                  <p className="mt-1 text-ambre-400">{site.emergencyLabel}</p>
+                  <div className="mt-2">
+                    <Horaires />
+                  </div>
+                  <p className="mt-2 font-semibold text-ambre-400">{site.hoursLabel}</p>
                 </li>
               </ul>
             </div>

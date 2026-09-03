@@ -34,10 +34,10 @@ src/
   lib/site.ts        Coordonnées, horaires, zone d'intervention — SOURCE UNIQUE
   lib/schema.ts      JSON-LD LocalBusiness (sous-type Plumber)
   lib/seo.ts         title / description / canonical / Open Graph par page
-  lib/avis.ts        Avis Google — À REMPLIR (voir plus bas)
+  lib/avis.ts        Avis Google réels, copiés depuis la fiche
   lib/photos.ts      Compression d'image côté navigateur
   routes/            Une page par fichier
-  components/        Header, Footer, CallBar, formulaire, icônes, UI
+  components/        Header, Footer, CallBar, horaires, avis, formulaire, UI
   server/devis.ts    Server function : validation + e-mail Resend + SMS
   server/sms.ts      Notification SMS (Brevo ou Twilio)
   server/storage.ts  URL signées Supabase Storage
@@ -47,31 +47,46 @@ src/
 
 ## ⚠ À faire avant la mise en ligne
 
-### 1. Vérifier les données de l'entreprise — `src/lib/site.ts`
+### 1. Ce qui reste à compléter — `src/lib/site.ts`
 
-Ces valeurs n'ont pas été fournies et portent des valeurs par défaut :
+Les coordonnées, horaires, adresse et géolocalisation proviennent de la **fiche Google
+Business Profile** (relevé du 2026-09-03) et sont donc alignées avec elle. Restent
+ouverts :
 
-| Champ | Valeur actuelle | Pourquoi c'est important |
+| Champ | Valeur actuelle | Pourquoi |
 | --- | --- | --- |
-| `url` | `https://plomberie-avetisyan.fr` | Sert aux canonicals et au sitemap |
-| `email` | `contact@plomberie-avetisyan.fr` | Adresse affichée et destinataire par défaut |
-| `hours` | Lun–Ven 7h30–19h30, Sam 8h–18h | **Publié dans le schema LocalBusiness** : doit correspondre exactement à la fiche Google Business Profile, sinon Google signale l'écart |
-| `geo` | Centre approximatif du 13009 | À affiner sur la vraie adresse |
-| `legal.siret`, `legal.insurance` | « À compléter » | Obligation légale, affiché en mentions légales |
+| `url` | `https://plomberie-avetisyan.fr` | Domaine réel — sert aux canonicals et au sitemap |
+| `email` | `contact@plomberie-avetisyan.fr` | Absent de la fiche Google : à confirmer |
+| `legal.siret` | « À compléter » | Obligation légale, affiché en mentions légales |
+| `legal.insurance` | « À compléter » | Assurance décennale |
 
 Le domaine apparaît aussi dans `vite.config.ts` (`sitemap.host`) et
 `public/robots.txt` — pensez à les modifier ensemble.
 
-### 2. Coller deux vrais avis Google — `src/lib/avis.ts`
+**Toute modification des horaires sur la fiche Google doit être répercutée dans
+`site.hours`**, et inversement : Google signale les écarts entre la fiche et le schema
+LocalBusiness du site. Les horaires affichés (footer, page contact, accueil) sont tous
+dérivés de ce tableau par `horairesGroupes()` — il n'y a rien d'autre à modifier.
 
-Le fichier est **volontairement vide**. Publier des témoignages inventés est une
-pratique commerciale trompeuse (art. L121-2 et L121-4 du Code de la consommation),
-sanctionnable et détectée par Google. La marche à suivre est détaillée en tête du
-fichier : ouvrir la fiche Google Business Profile, copier deux avis à l'identique,
-renseigner auteur / date / note.
+### 2. Renseigner le site sur la fiche Google
 
-Tant que le tableau est vide, la section « Ils nous ont appelés en second » de la page
-Recherche de fuite ne s'affiche pas. Le reste du site est cohérent sans elle.
+La fiche n'a **aucun site web déclaré**. Une fois le domaine en ligne, ajoutez-le dans
+Google Business Profile : c'est le lien qui transfère l'autorité des 301 avis vers le
+site.
+
+### 3. Avis clients — `src/lib/avis.ts`
+
+Le fichier contient **deux avis réels**, copiés à l'identique depuis la fiche Google
+(Anne Michelin et robert pekmezian), tous deux sur une fuite trouvée après l'échec
+d'autres intervenants. Ils s'affichent sur la page Recherche de fuite.
+
+Ne jamais les reformuler, raccourcir ni corriger. Pour en ajouter : fiche Google →
+onglet Avis → copier le texte exact, l'auteur tel qu'affiché et la note.
+
+La note globale (5,0 sur 301 avis) est affichée sur l'accueil et la page contact, mais
+**volontairement absente du JSON-LD** : Google interdit le balisage `aggregateRating`
+auto-déclaré reprenant sa propre note et le sanctionne par une action manuelle. Les
+étoiles dans les résultats de recherche viennent de la fiche, pas d'un balisage.
 
 ---
 
@@ -160,6 +175,22 @@ Le dépôt contient déjà `netlify.toml` (commande de build, Node 22, en-têtes
 - Le JS d'hydratation est différé et découpé par route.
 
 Les en-têtes de `netlify.toml` mettent les assets fingerprintés en cache immuable un an.
+
+## Pistes non traitées
+
+- **Chauffe-eau.** C'est le troisième mot-clé des avis (18 occurrences, derrière
+  « réactif » et « recherche de fuite »), et le site n'a pas de page dédiée — seulement
+  une ligne dans la page Dépannage urgent. Une page `/chauffe-eau` ciblant
+  « remplacement chauffe-eau Marseille » correspondrait à une demande déjà démontrée.
+- **Photos de la fiche Google.** La fiche porte 15 photos haute résolution. Elles ne
+  sont pas utilisées : les URL `lh3.googleusercontent.com` sont instables, un appel
+  externe par image contredit l'objectif de vitesse, et les droits ne sont pas établis
+  (certaines peuvent avoir été déposées par des clients). Pour les exploiter :
+  télécharger, vérifier qu'elles vous appartiennent, convertir en AVIF/WebP et les
+  héberger dans `public/`.
+- **Autres avis exploitables.** Trois autres avis mentionnent une fuite trouvée après
+  échec d'un confrère (Malika AMEDDAH, Brunovalp Perez, prospectionyannpersoglio) et
+  peuvent être ajoutés à `src/lib/avis.ts` sans modifier le code.
 
 ## Points connus
 

@@ -27,8 +27,7 @@ export function localBusinessSchema() {
         currenciesAccepted: 'EUR',
         address: {
           '@type': 'PostalAddress',
-          // Champ omis tant que la rue n'est pas confirmée.
-          ...(site.address.street ? { streetAddress: site.address.street } : {}),
+          streetAddress: site.address.street,
           addressLocality: site.address.locality,
           postalCode: site.address.postalCode,
           addressRegion: site.address.region,
@@ -41,12 +40,20 @@ export function localBusinessSchema() {
         },
         openingHoursSpecification: site.hours.map((h) => ({
           '@type': 'OpeningHoursSpecification',
-          dayOfWeek: h.days.map((d) => `https://schema.org/${d}`),
+          dayOfWeek: `https://schema.org/${h.jour}`,
           opens: h.opens,
           closes: h.closes,
         })),
         areaServed: site.areaServed.map((name) => ({ '@type': 'City', name })),
         knowsLanguage: ['fr'],
+        hasMap: site.google.maps,
+        /**
+         * Pas d'`aggregateRating` ici, volontairement. Reprendre en JSON-LD la
+         * note Google de sa propre fiche est un balisage auto-déclaré : Google
+         * l'interdit pour LocalBusiness et le sanctionne par une action
+         * manuelle. La note est affichée en clair sur le site, ce qui est licite ;
+         * les étoiles dans les résultats de recherche proviennent de la fiche.
+         */
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
           name: 'Prestations de plomberie',

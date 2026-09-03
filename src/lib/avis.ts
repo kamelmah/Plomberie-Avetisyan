@@ -1,41 +1,26 @@
+import { site } from './site'
+
 /**
  * Avis clients affichés sur la page « Recherche de fuite ».
  *
- * ⚠ À REMPLIR AVEC DE VRAIS AVIS — ce fichier est volontairement vide.
+ * Ces avis sont réels, copiés à l'identique depuis la fiche Google Business
+ * Profile de Plomberie Avetisyan Grigor (relevé du 2026-09-03). Ne jamais les
+ * reformuler, les raccourcir ni les corriger : un avis retouché n'est plus un
+ * avis, et publier un témoignage modifié ou inventé est une pratique
+ * commerciale trompeuse (art. L121-2 et L121-4 du Code de la consommation).
  *
- * Publier des témoignages inventés est une pratique commerciale trompeuse
- * (art. L121-2 et L121-4 du Code de la consommation ; contrôles DGCCRF).
- * Le risque n'est pas théorique : l'amende peut atteindre 300 000 € et
- * Google supprime les fiches concernées.
- *
- * Marche à suivre — 5 minutes :
- *   1. Ouvrez votre fiche Google Business Profile → onglet « Avis ».
- *   2. Repérez deux avis qui mentionnent une fuite trouvée après l'échec
- *      d'un autre intervenant.
- *   3. Copiez le texte à l'identique (sans le corriger ni le raccourcir).
- *   4. Renseignez le prénom + initiale tels qu'affichés par Google, la date
- *      et la note.
- *   5. Ajoutez l'URL publique de votre fiche dans `lienGoogle` ci-dessous.
- *
- * Tant que le tableau est vide, la section ne s'affiche pas : le site reste
- * cohérent, il lui manque juste cette preuve sociale.
- *
- * Exemple de forme attendue (à supprimer une fois rempli) :
- *
- *   export const avis: Array<Avis> = [
- *     {
- *       auteur: 'Prénom N.',
- *       date: '2026-05-14',
- *       note: 5,
- *       texte: 'Texte exact de l’avis Google, copié sans modification.',
- *     },
- *   ]
+ * Pour en ajouter : fiche Google → onglet Avis → copier le texte exact,
+ * l'auteur tel qu'affiché, et la note.
  */
 
 export type Avis = {
-  /** Nom tel qu'affiché sur Google, ex. « Sophie M. » */
+  /** Nom tel qu'affiché sur Google */
   auteur: string
-  /** Date de l'avis, format ISO AAAA-MM-JJ */
+  /**
+   * Mois de publication, format ISO AAAA-MM-JJ.
+   * Google n'expose qu'une date relative (« il y a 4 mois ») : cette valeur en
+   * est la conversion au mois près, calculée depuis le relevé du 2026-09-03.
+   */
   date: string
   /** Note sur 5 */
   note: 1 | 2 | 3 | 4 | 5
@@ -43,7 +28,22 @@ export type Avis = {
   texte: string
 }
 
-export const avis: Array<Avis> = []
+export const avis: Array<Avis> = [
+  {
+    auteur: 'Anne Michelin',
+    date: '2026-05-01',
+    note: 5,
+    texte:
+      'Très sérieux, efficace et très performant. Cela faisait plus de 6 ans que j’avais des fuites d’eau ayant fait appel à différents artisans sans succès. Le problème était complexe. Monsieur Avetisyan a su investiguer au bon endroit avec les bons équipements. Un grand merci à lui. Mon appartement est maintenant sécurisé. Je le recommande vivement.',
+  },
+  {
+    auteur: 'robert pekmezian',
+    date: '2026-06-01',
+    note: 5,
+    texte:
+      'Un grand merci à Monsieur Avetisyan. Il a réussi à force de patience à trouver une fuite que les nombreux experts envoyés par l’assurance n’ont pas réussi à déceler.',
+  },
+]
 
-/** URL publique de la fiche Google Business Profile. Laisser vide si absente. */
-export const lienGoogle = ''
+/** Page publique des avis de la fiche Google. */
+export const lienGoogle = site.google.avis
