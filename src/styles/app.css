@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Bleu profond — couleur d'identité */
+  --color-marine-50: #eff5fb;
+  --color-marine-100: #dbe8f5;
+  --color-marine-200: #bcd3ec;
+  --color-marine-300: #8fb5dd;
+  --color-marine-400: #5c8fc8;
+  --color-marine-500: #3a6fae;
+  --color-marine-600: #2b5591;
+  --color-marine-700: #1d3f6f;
+  --color-marine-800: #122f54;
+  --color-marine-900: #0a2540;
+  --color-marine-950: #05172a;
+
+  /* Bleu du logo — goutte et mot « AVETISYAN » */
+  --color-goutte: #378add;
+
+  /* Ambre — réservé au seul appel à l'action téléphonique */
+  --color-ambre-400: #ffc233;
+  --color-ambre-500: #ffb000;
+  --color-ambre-600: #e09600;
+
+  /* Pile système : zéro requête réseau pour la typographie. */
+  --font-sans:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white text-marine-900 antialiased;
+    font-size: 17px;
+    line-height: 1.65;
+    /* Réserve exactement la hauteur de la barre d'appel fixe (56px). */
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 0;
+    }
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-marine-600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility wrap {
+  @apply mx-auto w-full max-w-5xl px-5 sm:px-6;
+}

@@ -1,0 +1,9 @@
+node_modules
+dist
+.output
+.netlify
+.vite
+.env
+.env.local
+.DS_Store
+src/routeTree.gen.ts
